@@ -33,8 +33,8 @@
             this.load.image('sky', 'http://labs.phaser.io/assets/skies/space3.png');
             this.load.image('logo', 'http://labs.phaser.io/assets/sprites/phaser3-logo.png');
             this.load.image('red', 'http://labs.phaser.io/assets/particles/red.png');
-            this.load.image('background', 'assets/background-1.png');
-            this.load.image('nighttime', 'assets/background-2.png');
+            this.load.image('background', 'assets/background-day.png');
+            this.load.image('nighttime', 'assets/background-eve.png');
             this.load.image('title', 'assets/title_screen.png');
             this.load.image('end', 'assets/ending_screen.png');
             this.load.image('black_keys', 'assets/black_keys.png');
@@ -94,7 +94,7 @@
             nighttime = this.add.image(400, 300, 'nighttime');
             nighttime.visible = false;
             current_sequence = this.sound.add('sequence_1');
-            current_sequence.loop = true;
+            // current_sequence.loop = true;
 
             // S key - C note
             note_c = this.sound.add('note_c');
@@ -512,6 +512,8 @@
                     if (counter === 14) {
                         end.visible = false;
                     }
+                } else {
+                    current_sequence.play();
                 }
             }
         }
