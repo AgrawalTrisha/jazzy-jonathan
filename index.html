@@ -34,11 +34,25 @@
             this.load.image('logo', 'http://labs.phaser.io/assets/sprites/phaser3-logo.png');
             this.load.image('red', 'http://labs.phaser.io/assets/particles/red.png');
             this.load.image('background', 'assets/background-1.png');
+            this.load.image('nighttime', 'assets/background-2.png');
+            this.load.image('title', 'assets/title_screen.png');
+            this.load.image('end', 'assets/ending_screen.png');
             this.load.image('black_keys', 'assets/black_keys.png');
             this.load.image('speech_1', 'assets/speech_1.png');
             this.load.image('speech_2', 'assets/speech_2.png');
+            this.load.image('speech_3', 'assets/speech_3.png');
+            this.load.image('speech_4', 'assets/speech_4.png');
+            this.load.image('speech_5', 'assets/speech_5.png');
+            this.load.image('speech_6', 'assets/speech_6.png');
+            this.load.image('speech_7', 'assets/speech_7.png');
+            this.load.image('speech_8', 'assets/speech_8.png');
+            this.load.image('speech_9', 'assets/speech_9.png');
+            this.load.image('speech_10', 'assets/speech_10.png');
+            this.load.image('speech_11', 'assets/speech_11.png');
+            this.load.image('speech_12', 'assets/speech_12.png');
+            this.load.image('speech_13', 'assets/speech_13.png');
 
-            // sound assets
+            // note assets
             this.load.audio('note_c', 'assets/note_c.mp3');
             this.load.audio('note_d', 'assets/note_d.mp3');
             this.load.audio('note_e', 'assets/note_e.mp3');
@@ -51,6 +65,12 @@
             this.load.audio('note_fs', 'assets/note_fs.mp3');
             this.load.audio('note_gs', 'assets/note_gs.mp3');
             this.load.audio('note_as', 'assets/note_as.mp3');
+
+            // sequence assets
+            this.load.audio('sequence_1', 'assets/sequence_1.mp3');
+            this.load.audio('sequence_2', 'assets/sequence_2.mp3');
+            this.load.audio('sequence_3', 'assets/sequence_3.mp3');
+            this.load.audio('sequence_4', 'assets/sequence_4.mp3');
 
             // key sprites
             this.load.spritesheet('key_s', 'assets/key_s.png', { frameWidth: 64, frameHeight: 244 });
@@ -68,7 +88,13 @@
         }
 
         function create() {
-            this.add.image(400, 300, 'background');
+            counter = -1;
+            dialog_context = true;
+            background = this.add.image(400, 300, 'background');
+            nighttime = this.add.image(400, 300, 'nighttime');
+            nighttime.visible = false;
+            current_sequence = this.sound.add('sequence_1');
+            current_sequence.loop = true;
 
             // S key - C note
             note_c = this.sound.add('note_c');
@@ -250,45 +276,69 @@
             });
             i_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
 
-            // cutscene 1
-            var mom_1
-            var john_1
-            mom_1 = this.add.image(400, 300, 'speech_1');
-            john_1 = this.add.image(400, 300, 'speech_2');
-            john_1.visible = false
-            var timedEvent
-            timedEvent = this.time.delayedCall(3000, onEvent, [], this);
+            spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
-            function onEvent() {
-                mom_1.visible = false;
-                john_1.visible = true;
-            }
-            timedEvent2 = this.time.delayedCall(6000, onEvent2, [], this);
-
-            function onEvent2() {
-                john_1.visible = false;
-                
-            }
+            speech_1 = this.add.image(400, 300, 'speech_1');
+            speech_2 = this.add.image(400, 300, 'speech_2');
+            speech_3 = this.add.image(400, 300, 'speech_3');
+            speech_4 = this.add.image(400, 300, 'speech_4');
+            speech_5 = this.add.image(400, 300, 'speech_5');
+            speech_6 = this.add.image(400, 300, 'speech_6');
+            speech_7 = this.add.image(400, 300, 'speech_7');
+            speech_8 = this.add.image(400, 300, 'speech_8');
+            speech_9 = this.add.image(400, 300, 'speech_9');
+            speech_10 = this.add.image(400, 300, 'speech_10');
+            speech_11 = this.add.image(400, 300, 'speech_11');
+            speech_12 = this.add.image(400, 300, 'speech_12');
+            speech_13 = this.add.image(400, 300, 'speech_13');
+            speech_1.visible = true;
+            speech_2.visible = false;
+            speech_3.visible = false;
+            speech_4.visible = false;
+            speech_5.visible = false;
+            speech_6.visible = false;
+            speech_7.visible = false;
+            speech_8.visible = false;
+            speech_9.visible = false;
+            speech_10.visible = false;
+            speech_11.visible = false;
+            speech_12.visible = false;
+            speech_13.visible = false;
 
 
             //  Here we'll create a simple key combo
             //  When you type in ABCD the event will be triggered on the entry of the final character (D)
             //  An incorrect key press will reset the combo back to the start again
 
-            var combo = this.input.keyboard.createCombo('sdfghjk', { resetOnMatch: true });
-
+            combo = this.input.keyboard.createCombo('zxcvbnm', { resetOnMatch: true });
             this.input.keyboard.on('keycombomatch', function (event) {
                 console.log('Key Combo matched!')
-                mom_1.visible = true;
+                dialog_context = true;
+                if (counter === 4) {
+                    speech_5.visible = true;
+                    nighttime.visible = true;
+                }
+                if (counter === 5) {
+                    speech_6.visible = true;
+                }
+                if (counter === 8) {
+                    speech_9.visible = true;
+                    nighttime.visible = true;
+                }
+                if (counter === 9) {
+                    speech_10.visible = true;
+                }
             });
 
+            title = this.add.image(400, 300, 'title');
+            end = this.add.image(400, 300, 'end');
+            end.visible = false;
 
 
         }
         function update() {
             // s key
             if (Phaser.Input.Keyboard.JustDown(s_key)) {
-                console.log("i presse the key\n");
                 first_key.anims.play('key_s_down');
                 note_c.play();
             } else if (Phaser.Input.Keyboard.JustUp(s_key)) {
@@ -297,7 +347,6 @@
 
             // d key
             if (Phaser.Input.Keyboard.JustDown(d_key)) {
-                console.log("i presse the key\n");
                 second_key.anims.play('key_d_down');
                 note_d.play();
             } else if (Phaser.Input.Keyboard.JustUp(d_key)) {
@@ -306,7 +355,6 @@
 
             // f key
             if (Phaser.Input.Keyboard.JustDown(f_key)) {
-                console.log("i presse the key\n");
                 third_key.anims.play('key_f_down');
                 note_e.play();
             } else if (Phaser.Input.Keyboard.JustUp(f_key)) {
@@ -315,7 +363,6 @@
 
             // g key
             if (Phaser.Input.Keyboard.JustDown(g_key)) {
-                console.log("i presse the key\n");
                 fourth_key.anims.play('key_g_down');
                 note_f.play();
             } else if (Phaser.Input.Keyboard.JustUp(g_key)) {
@@ -324,7 +371,6 @@
 
             // h key
             if (Phaser.Input.Keyboard.JustDown(h_key)) {
-                console.log("i presse the key\n");
                 fifth_key.anims.play('key_h_down');
                 note_g.play();
             } else if (Phaser.Input.Keyboard.JustUp(h_key)) {
@@ -333,7 +379,6 @@
 
             // j key
             if (Phaser.Input.Keyboard.JustDown(j_key)) {
-                console.log("i presse the key\n");
                 sixth_key.anims.play('key_j_down');
                 note_a.play();
             } else if (Phaser.Input.Keyboard.JustUp(j_key)) {
@@ -342,7 +387,6 @@
 
             // k key
             if (Phaser.Input.Keyboard.JustDown(k_key)) {
-                console.log("i presse the key\n");
                 seventh_key.anims.play('key_k_down');
                 note_b.play();
             } else if (Phaser.Input.Keyboard.JustUp(k_key)) {
@@ -351,7 +395,6 @@
 
             // e key
             if (Phaser.Input.Keyboard.JustDown(e_key)) {
-                console.log("i presse the key\n");
                 eighth_key.anims.play('key_e_down');
                 note_cs.play();
             } else if (Phaser.Input.Keyboard.JustUp(e_key)) {
@@ -360,7 +403,6 @@
 
             // r key
             if (Phaser.Input.Keyboard.JustDown(r_key)) {
-                console.log("i presse the key\n");
                 ninth_key.anims.play('key_r_down');
                 note_ds.play();
             } else if (Phaser.Input.Keyboard.JustUp(r_key)) {
@@ -369,7 +411,6 @@
 
             // y key
             if (Phaser.Input.Keyboard.JustDown(y_key)) {
-                console.log("i presse the key\n");
                 tenth_key.anims.play('key_y_down');
                 note_fs.play();
             } else if (Phaser.Input.Keyboard.JustUp(y_key)) {
@@ -378,7 +419,6 @@
 
             // u key
             if (Phaser.Input.Keyboard.JustDown(u_key)) {
-                console.log("i presse the key\n");
                 eleventh_key.anims.play('key_u_down');
                 note_gs.play();
             } else if (Phaser.Input.Keyboard.JustUp(u_key)) {
@@ -387,11 +427,92 @@
 
             //  ikey
             if (Phaser.Input.Keyboard.JustDown(i_key)) {
-                console.log("i presse the key\n");
                 twelveth_key.anims.play('key_i_down');
                 note_as.play();
             } else if (Phaser.Input.Keyboard.JustUp(i_key)) {
                 twelveth_key.anims.play('key_i_up');
+            }
+
+            // spacebar
+            if (Phaser.Input.Keyboard.JustDown(spacebar)) {
+                if (dialog_context) {
+                    counter++;
+                    console.log("counter is: " + counter);
+                    if (counter == 0) {
+                        title.visible = false;
+                        speech_1.visible = true;
+                    }
+                    if (counter == 1) {
+                        speech_1.visible = false;
+                        speech_2.visible = true;
+                    }
+                    if (counter == 2) {
+                        speech_2.visible = false;
+                        speech_3.visible = true;
+                    }
+                    if (counter == 3) {
+                        speech_3.visible = false;
+                        speech_4.visible = true;
+                    }
+                    if (counter === 4) {
+                        speech_4.visible = false;
+                        combo = this.input.keyboard.createCombo('shfhdhgh', { resetOnMatch: true });
+                        current_sequence.play();
+                        dialog_context = false;
+                    }
+                    if (counter === 5) {
+                        speech_5.visible = false;
+                        combo = this.input.keyboard.createCombo('srgygrs', { resetOnMatch: true });
+                        current_sequence.destroy();
+                        current_sequence = this.sound.add('sequence_2');
+                        current_sequence.play();
+                        dialog_context = false;
+                    }
+                    if (counter === 6) {
+                        speech_6.visible = false;
+                        speech_7.visible = true;
+                        nighttime.visible = false;
+                        current_sequence.destroy();
+                    }
+                    if (counter === 7) {
+                        speech_7.visible = false;
+                        speech_8.visible = true;
+                    }
+                    if (counter === 8) {
+                        speech_8.visible = false;
+                        combo = this.input.keyboard.createCombo('fhshghdh', { resetOnMatch: true });
+                        current_sequence = this.sound.add('sequence_3');
+                        current_sequence.play();
+                        dialog_context = false;
+                    }
+                    if (counter === 9) {
+                        speech_9.visible = false;
+                        combo = this.input.keyboard.createCombo('gifjrudh', { resetOnMatch: true });
+                        current_sequence = this.sound.add('sequence_4');
+                        current_sequence.play();
+                        dialog_context = false;
+                    }
+                    if (counter === 10) {
+                        speech_10.visible = false;
+                        speech_11.visible = true;
+                        current_sequence.destroy();
+                    }
+                    if (counter === 11) {
+                        speech_11.visible = false;
+                        speech_12.visible = true;
+                    }
+                    if (counter === 12) {
+                        speech_12.visible = false;
+                        speech_13.visible = true;
+                    }
+                    if (counter === 13) {
+                        speech_13.visible = false;
+                        end.visible = true;
+                    }
+                    if (counter === 14) {
+                        end.visible = false;
+                    }
+                }
             }
         }
     </script>
